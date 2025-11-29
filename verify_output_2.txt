@@ -1,0 +1,8 @@
+Transcript object type: <class 'youtube_transcript_api._transcripts.FetchedTranscript'>
+to_raw_data type: <class 'list'>
+First item in raw_data: {'text': 'did you know that Ronaldo was older than', 'start': 0.04, 'duration': 4.44}
+Attempting TextFormatter.format_transcript(transcript_obj)...
+Formatter output (first 50 chars): did you know that Ronaldo was older than
+Rooney or
+Attempting TextFormatter.format_transcript(raw_data)...
+Error with TextFormatter(raw_data): 'dict' object has no attribute 'text'

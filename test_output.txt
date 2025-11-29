@@ -1,0 +1,15 @@
+2025-11-29 23:34:18.774 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-11-29 23:34:18.776 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-11-29 23:34:19.059 
+  Warning: to view this Streamlit app on a browser, run it with the following
+  command:
+
+    streamlit run test_fix.py [ARGUMENTS]
+2025-11-29 23:34:19.060 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2025-11-29 23:34:19.060 Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+Testing fetch_transcript with video ID: U67mQO16xaE
+SUCCESS: Transcript fetched successfully
+Transcript length: 10003
+First 100 chars: did you know that Ronaldo was older than
+Rooney or that when Buon started playing
+Maradona was still
