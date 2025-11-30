@@ -89,26 +89,29 @@ def get_video_id(url):
     return None
 
 def get_playlist_video_ids(url):
-    """Extracts all video IDs from a playlist URL using yt-dlp."""
+    """Extracts all video IDs and titles from a playlist URL using yt-dlp."""
     ydl_opts = {
         'extract_flat': True,
         'quiet': True,
         'ignoreerrors': True,
     }
     
-    video_ids = []
+    videos = []
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
             info = ydl.extract_info(url, download=False)
             if 'entries' in info:
                 for entry in info['entries']:
                     if entry and 'id' in entry:
-                        video_ids.append(entry['id'])
+                        videos.append({
+                            'id': entry['id'],
+                            'title': entry.get('title', 'Unknown Title')
+                        })
         except Exception as e:
             st.error(f"Error extracting playlist: {e}")
             return []
             
-    return video_ids
+    return videos
 
 def fetch_transcript(video_id):
     """Fetches the transcript for a single video ID."""
@@ -141,19 +144,29 @@ def main():
         # Check if it's a playlist
         if "list=" in url:
             status_text.text("Processing playlist...")
-            video_ids = get_playlist_video_ids(url)
+            videos = get_playlist_video_ids(url)
             
-            if not video_ids:
+            if not videos:
                 st.error("Could not find any videos in the playlist.")
                 return
             
-            total_videos = len(video_ids)
+            total_videos = len(videos)
             st.info(f"Found {total_videos} videos in playlist.")
             
-            for i, video_id in enumerate(video_ids):
-                status_text.text(f"Transcribing video {i+1}/{total_videos} (ID: {video_id})...")
+            for i, video in enumerate(videos):
+                video_id = video['id']
+                title = video['title']
+                
+                status_text.text(f"Transcribing video {i+1}/{total_videos}: {title}...")
                 transcript = fetch_transcript(video_id)
-                full_transcript += f"\n\n--- Video ID: {video_id} ---\n\n{transcript}"
+                
+                # Append to full transcript for download
+                full_transcript += f"\n\n--- Video {i+1}: {title} ({video_id}) ---\n\n{transcript}"
+                
+                # Display in expander
+                with st.expander(f"{i+1}. {title}"):
+                    st.text_area("Transcript", value=transcript, height=200, key=f"transcript_{i}")
+                
                 progress_bar.progress((i + 1) / total_videos)
                 
         else:
